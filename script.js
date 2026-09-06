@@ -46,7 +46,7 @@ for (let r = 0; r < buttons.length; r++) {
         } else if (buttons[r][c] === 'c') {
             curr.addEventListener('click', clearBehavior);
         } else if (buttons[r][c] === '=') {
-           curr.addEventListener('click', calculateBehavior);
+           curr.addEventListener('click', e => calculateBehavior(e.target.textContent));
         } else {
            curr.addEventListener('click', operatorBehavior);
         }
@@ -67,7 +67,7 @@ function updateDisplay() {
     }
 }
 
-function calculateBehavior(e) {
+function calculateBehavior() {
     if (operator != undefined) {
         num1 = operate(num1, num2, operator);
     }
@@ -76,14 +76,14 @@ function calculateBehavior(e) {
     updateDisplay();
 }
 
-function clearBehavior(e) {
+function clearBehavior() {
     num1 = num2 = 0;
     operator = undefined;
     updateDisplay();
 }
 
-function operatorBehavior(e) {
-    operator = e.target.textContent;
+function operatorBehavior(op) {
+    operator = op;
     updateDisplay();
 }
 
@@ -102,6 +102,14 @@ function digitBehavior(digit) {
 document.addEventListener('keydown', e => {
     if (e.key >= 0 && e.key <= 9) {
         digitBehavior(Number(e.key));
+    } else if (e.key == '-' || e.key == '+' || e.key == 'x' || e.key == '/') {
+        operatorBehavior(e.key);
+    } else if (e.key == '=' || e.key == 'Enter') {
+        calculateBehavior();
+    } else if (e.key == 'Backspace') {
+        clearBehavior();
     }
 });
+
+
 updateDisplay();
