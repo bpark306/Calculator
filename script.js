@@ -41,14 +41,14 @@ for (let r = 0; r < buttons.length; r++) {
 
         row.appendChild(curr);
 
-        if (buttons[r][c] == 'c') {
+        if (typeof buttons[r][c] === 'number'){
+            curr.addEventListener('click', e => digitBehavior(Number(e.target.textContent)));
+        } else if (buttons[r][c] === 'c') {
             curr.addEventListener('click', clearBehavior);
-        } else if (!Number.isNaN(buttons[r][c])){
-            curr.addEventListener('click', digitBehavior);
-        } else if (buttons[r][c] == '=') {
+        } else if (buttons[r][c] === '=') {
            curr.addEventListener('click', calculateBehavior);
         } else {
-            // implement operator button behavior
+           curr.addEventListener('click', operatorBehavior);
         }
     }
     container.appendChild(row);
@@ -68,9 +68,11 @@ function updateDisplay() {
 }
 
 function calculateBehavior(e) {
-    if (operator != undefined && num2 != 0) {
-        num1 = operator();
+    if (operator != undefined) {
+        num1 = operate(num1, num2, operator);
     }
+    operator = undefined;
+    num2 = 0;
     updateDisplay();
 }
 
@@ -80,16 +82,26 @@ function clearBehavior(e) {
     updateDisplay();
 }
 
-function digitBehavior(e) {
-    const append = (Number(e.target.textContent) / 100);
+function operatorBehavior(e) {
+    operator = e.target.textContent;
+    updateDisplay();
+}
+
+function digitBehavior(digit) {
+    const append = digit / 100;
     if (operator == undefined) {
         num1 *= 10;
         num1 += append
     } else {
-        num1 *= 10;
+        num2 *= 10;
         num2 += append;
     }
     updateDisplay();
 }
 
+document.addEventListener('keydown', e => {
+    if (e.key >= 0 && e.key <= 9) {
+        digitBehavior(Number(e.key));
+    }
+});
 updateDisplay();
