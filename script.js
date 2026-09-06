@@ -30,6 +30,9 @@ const container = document.querySelector(".container");
 for (let r = 0; r < buttons.length; r++) {
 
     const row = document.createElement("div");
+    row.style['flex'] = '0';
+    row.style['display'] = 'flex'
+
     
     for (let c = 0; c < buttons[r].length; c++) {
         const curr = document.createElement("button");
@@ -48,7 +51,7 @@ for (let r = 0; r < buttons.length; r++) {
         } else if (buttons[r][c] === '=') {
            curr.addEventListener('click', e => calculateBehavior(e.target.textContent));
         } else {
-           curr.addEventListener('click', operatorBehavior);
+           curr.addEventListener('click', e => operatorBehavior(e.target.textContent));
         }
     }
     container.appendChild(row);
