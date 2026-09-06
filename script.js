@@ -42,12 +42,11 @@ for (let r = 0; r < buttons.length; r++) {
         row.appendChild(curr);
 
         if (buttons[r][c] == 'c') {
-            // implement clear button behavior
+            curr.addEventListener('click', clearBehavior);
         } else if (!Number.isNaN(buttons[r][c])){
-            // implement digit button behavior
             curr.addEventListener('click', digitBehavior);
         } else if (buttons[r][c] == '=') {
-            // Implement equal button behavior
+           curr.addEventListener('click', calculateBehavior);
         } else {
             // implement operator button behavior
         }
@@ -75,6 +74,12 @@ function calculateBehavior(e) {
     updateDisplay();
 }
 
+function clearBehavior(e) {
+    num1 = num2 = 0;
+    operator = undefined;
+    updateDisplay();
+}
+
 function digitBehavior(e) {
     const append = (Number(e.target.textContent) / 100);
     if (operator == undefined) {
@@ -86,4 +91,5 @@ function digitBehavior(e) {
     }
     updateDisplay();
 }
+
 updateDisplay();
