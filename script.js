@@ -8,7 +8,6 @@ let buttons = [
         [0, 'c', '=', '+']
     ];
 
-
 function operate(num1, num2, operator) {
     switch (operator) {
         case '+':
@@ -40,6 +39,14 @@ for (let r = 0; r < buttons.length; r++) {
         curr.textContent = buttons[r][c];
 
         row.appendChild(curr);
+
+        if (buttons[r][c] == 'c') {
+            // implement clear button behavior
+        } else if (!Number.isNaN(buttons[r][c])){
+            // implement digit button behavior
+        } else {
+            // implement operator button behavior
+        }
     }
     container.appendChild(row);
 }
