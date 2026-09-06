@@ -17,6 +17,7 @@ function operate(num1, num2, operator) {
         case 'x':
             return num1 * num2;
         case '/':
+            if (num2 == 0) return 'ERROR';
             return num1 / num2;
         default:
             return "ERROR";
@@ -44,6 +45,9 @@ for (let r = 0; r < buttons.length; r++) {
             // implement clear button behavior
         } else if (!Number.isNaN(buttons[r][c])){
             // implement digit button behavior
+            curr.addEventListener('click', digitBehavior);
+        } else if (buttons[r][c] == '=') {
+            // Implement equal button behavior
         } else {
             // implement operator button behavior
         }
@@ -64,4 +68,22 @@ function updateDisplay() {
     }
 }
 
+function calculateBehavior(e) {
+    if (operator != undefined && num2 != 0) {
+        num1 = operator();
+    }
+    updateDisplay();
+}
+
+function digitBehavior(e) {
+    const append = (Number(e.target.textContent) / 100);
+    if (operator == undefined) {
+        num1 *= 10;
+        num1 += append
+    } else {
+        num1 *= 10;
+        num2 += append;
+    }
+    updateDisplay();
+}
 updateDisplay();
